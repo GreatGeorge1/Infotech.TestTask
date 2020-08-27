@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Infotech.TestTask.Webapi.Models;
 
@@ -6,13 +7,9 @@ namespace Infotech.TestTask.Webapi.EntityFrameworkCore
 {
     public static class DbInitializer
     {
-        public static void Initialize(ApplicationContext context){
-            context.Database.EnsureCreated();
-
-            if(context.People.Any()){
-                return;
-            }
-            var people = new Person[]
+        public static IEnumerable<Person> PersonSeed()
+        {
+            return  new[] 
             {
                 new Person{Name = "Franzen", Surname = "Manicom", Patronymic = "Cyril", ExternalId = "740-92-3574", DateOfBirth = new DateTime(1964,6,23)},
                 new Person{Name="Mead",Surname = "Selvey",Patronymic = "Magda", ExternalId = "636-48-2573", DateOfBirth = new DateTime(1980,5,30)},
@@ -30,12 +27,11 @@ namespace Infotech.TestTask.Webapi.EntityFrameworkCore
                 new Person{Name = "Dorisa", Surname = "Girardot", Patronymic ="Jessalin", ExternalId = "839-40-0702", DateOfBirth = new DateTime(1979,3,13)},
                 new Person{Name="Fabian", Surname = "Rissom", Patronymic = "Pierette", ExternalId = "493-87-4963", DateOfBirth = new DateTime(1966,12,16)}, 
             };
-            foreach(Person p in people){
-                context.People.Add(p);
-            }
-            context.SaveChanges();
+        }
 
-            var cars = new Car[]
+        public static IEnumerable<Car> CarSeed()
+        {
+            return new []
             {
                 new Car{NationalId = "BM7105AX",VIN="JA32X2HU4EU658619", Maker = "Subaru", Model = "Legacy", Color = "Violet", YearOfManufacture = new DateTime(1989,1,1)},
                 new Car{NationalId = "AA2105AB", VIN="SAJWA0F75F8655018", Maker = "Jeep", Model = "Grand Cherokee", Color = "Aquamarine", YearOfManufacture = new DateTime(2005,1,1)},
@@ -52,13 +48,11 @@ namespace Infotech.TestTask.Webapi.EntityFrameworkCore
                 new Car{NationalId="HE9812KM",VIN="SAJWA4FB9CL610880", Maker = "Ford", Model = "F-Series", Color = "Mauv", YearOfManufacture = new DateTime(1988,1,1)},
                 new Car{NationalId="BO3427TC",VIN="3TMJU4GN0AM255487", Maker = "Volkswagen", Model = "Cabriolet", Color = "Red", YearOfManufacture = new DateTime(1985,1,1)}
             };
+        }
 
-            foreach(Car c in cars){
-                context.Cars.Add(c);
-            }
-            context.SaveChanges();
-
-            var personCars=new PersonCar[]
+        public static IEnumerable<PersonCar> PersonCarSeed()
+        {
+            return new []
             {
                 new PersonCar{CarId = 1, PersonId = 1},
                 new PersonCar{CarId = 1, PersonId = 2},
@@ -80,6 +74,24 @@ namespace Infotech.TestTask.Webapi.EntityFrameworkCore
                 new PersonCar{CarId = 13, PersonId = 14},
                 new PersonCar{CarId = 14, PersonId = 15}
             };
+        }
+        
+        public static void Initialize(ApplicationContext context){
+            context.Database.EnsureCreated();
+            if(context.People.Any()){
+                return;
+            }
+            var people = PersonSeed();
+            foreach(Person p in people){
+                context.People.Add(p);
+            }
+            context.SaveChanges();
+            var cars = CarSeed();
+            foreach(Car c in cars){
+                context.Cars.Add(c);
+            }
+            context.SaveChanges();
+            var personCars = PersonCarSeed();
             foreach(PersonCar pc in personCars){
                 context.Set<PersonCar>().Add(pc);
             }

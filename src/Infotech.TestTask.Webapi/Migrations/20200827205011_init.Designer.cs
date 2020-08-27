@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infotech.TestTask.Webapi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200827200702_init")]
+    [Migration("20200827205011_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,13 +93,13 @@ namespace Infotech.TestTask.Webapi.Migrations
                     b.HasOne("Infotech.TestTask.Webapi.Models.Car", "Car")
                         .WithMany("PersonCars")
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Infotech.TestTask.Webapi.Models.Person", "Person")
                         .WithMany("PersonCars")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
