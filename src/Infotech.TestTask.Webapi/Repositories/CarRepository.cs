@@ -74,10 +74,6 @@ namespace Infotech.TestTask.Webapi.Repositories
                 .Where(p=>idList.Contains(p.Id))
                 .ToListAsync().ConfigureAwait(false);
         }
-
-        public Task<IEnumerable<Person>> GetOwnersByVIN(string vinNumber)
-        {
-            throw new System.NotImplementedException();
-        }
+        
     }
 }

@@ -22,18 +22,29 @@ namespace Infotech.TestTask.Webapi.Controllers
             _repo = repo ?? throw new System.ArgumentNullException(nameof(repo));
         }
 
-        [HttpGet("Owners")]
-        public async Task<ActionResult<IEnumerable<PersonDto>>> GetOwners(long carId = 0, string carNationalId = "")
+        [HttpGet("OwnersByCarId")]
+        public async Task<ActionResult<IEnumerable<PersonDto>>> GetOwnersById(long id = 0)
         {
-            IEnumerable<Person> owners = null;
-            if (carId != 0)
+            if (id <= 0)
             {
-                owners = await _repo.GetOwners(carId).ConfigureAwait(false);
+                return BadRequest("carId має бути більше нуля");
             }
-            if (!string.IsNullOrWhiteSpace(carNationalId) && owners is null)
+            IEnumerable<Person> owners = await _repo.GetOwners(id).ConfigureAwait(false);
+            if (owners?.Any() != true)
             {
-                owners = await _repo.GetOwners(carNationalId).ConfigureAwait(false);
+                return NotFound();
             }
+            return new ActionResult<IEnumerable<PersonDto>>(_mapper.Map<IEnumerable<Person>,IEnumerable<PersonDto>>(owners));
+        }
+        
+        [HttpGet("OwnersByCarNationalId")]
+        public async Task<ActionResult<IEnumerable<PersonDto>>> GetOwnersByNationalId(string id = "")
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest();
+            }
+            IEnumerable<Person> owners = await _repo.GetOwners(id).ConfigureAwait(false);
             if (owners?.Any() != true)
             {
                 return NotFound();
@@ -44,6 +55,10 @@ namespace Infotech.TestTask.Webapi.Controllers
         [HttpPost("ByPersonExternalId")]
         public async Task<ActionResult<IEnumerable<CarDto>>> GetCarsByPersonExternalId([FromBody] GetCarsByPersonExternalIdRequest req)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var cars = await _repo.GetByOwner(req.PersonExternalId).ConfigureAwait(false);
             if (cars.Any())
             {
@@ -55,7 +70,11 @@ namespace Infotech.TestTask.Webapi.Controllers
         [HttpPost("ByPersonId")]
         public async Task<ActionResult<IEnumerable<CarDto>>> GetCarsByPersonId([FromBody] GetCarsByPersonIdRequest req)
         {
-            var cars = await _repo.GetByOwner(req.PersonId).ConfigureAwait(false);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var cars = await _repo.GetByOwner((long)req.PersonId).ConfigureAwait(false);
             if (cars.Any())
             {
                 return new ActionResult<IEnumerable<CarDto>>(_mapper.Map<IEnumerable<Car>,IEnumerable<CarDto>>(cars));

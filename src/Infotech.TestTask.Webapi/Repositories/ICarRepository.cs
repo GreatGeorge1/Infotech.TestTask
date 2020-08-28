@@ -10,6 +10,5 @@ namespace Infotech.TestTask.Webapi.Repositories
         Task<IEnumerable<Car>> GetByOwner(string personExternalId);
         Task<IEnumerable<Person>> GetOwners(long carId);
         Task<IEnumerable<Person>> GetOwners(string carNationalId);
-        Task<IEnumerable<Person>> GetOwnersByVIN(string vinNumber);
     }
 }
