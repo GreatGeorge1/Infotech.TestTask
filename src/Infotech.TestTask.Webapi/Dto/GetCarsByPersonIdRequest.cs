@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Infotech.TestTask.Webapi.Dto
 {
+    /// <summary>
+    /// Запит на отримання списку автомобілів за Id власника
+    /// </summary>
     public class GetCarsByPersonIdRequest
     {
         [Required]

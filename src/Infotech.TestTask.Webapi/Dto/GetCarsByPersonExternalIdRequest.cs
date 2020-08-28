@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Infotech.TestTask.Webapi.Dto
 {
+    /// <summary>
+    /// Запит на отримання списку автомобілів за зовнішнім Id власника
+    /// </summary>
     public class GetCarsByPersonExternalIdRequest
     {
         //https://stackoverflow.com/questions/23939738/how-can-i-use-data-annotations-attribute-classes-to-fail-empty-strings-in-forms
