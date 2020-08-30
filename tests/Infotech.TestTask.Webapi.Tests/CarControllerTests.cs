@@ -30,8 +30,8 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetOwnersById(id:1);
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<PersonDto>>>(result);
-            var returnValue = Assert.IsAssignableFrom<IEnumerable<PersonDto>>(actionResult.Value);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<PersonDto>>>(result);
+            var returnValue = Assert.IsAssignableFrom<IReadOnlyList<PersonDto>>(actionResult.Value);
             var person = returnValue.Single();
             Assert.Equal("TestPerson", person.Name);
         }
@@ -48,7 +48,7 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetOwnersById(-1);
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<PersonDto>>>(result);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<PersonDto>>>(result);
             Assert.IsType<BadRequestObjectResult>(actionResult.Result);
         }
         
@@ -65,7 +65,7 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetOwnersById(1);
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<PersonDto>>>(result);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<PersonDto>>>(result);
             Assert.IsType<NotFoundResult>(actionResult.Result);
         }
         #endregion
@@ -85,8 +85,8 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetOwnersByNationalId(id:_nationalId);
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<PersonDto>>>(result);
-            var returnValue = Assert.IsAssignableFrom<IEnumerable<PersonDto>>(actionResult.Value);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<PersonDto>>>(result);
+            var returnValue = Assert.IsAssignableFrom<IReadOnlyList<PersonDto>>(actionResult.Value);
             var person = returnValue.Single();
             Assert.Equal("TestPerson",person.Name);
         }
@@ -104,7 +104,7 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetOwnersByNationalId("AE4598HA");
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<PersonDto>>>(result);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<PersonDto>>>(result);
             Assert.IsType<NotFoundResult>(actionResult.Result);
         }
 
@@ -121,8 +121,8 @@ namespace Infotech.TestTask.Webapi.Tests
             var result1 = await controller.GetOwnersByNationalId("");
             var result2 = await controller.GetOwnersByNationalId(" ");
             //Assert
-            var actionResult1 = Assert.IsType<ActionResult<IEnumerable<PersonDto>>>(result1);
-            var actionResult2 = Assert.IsType<ActionResult<IEnumerable<PersonDto>>>(result2);
+            var actionResult1 = Assert.IsType<ActionResult<IReadOnlyList<PersonDto>>>(result1);
+            var actionResult2 = Assert.IsType<ActionResult<IReadOnlyList<PersonDto>>>(result2);
             Assert.IsType<BadRequestResult>(actionResult1.Result);
             Assert.IsType<BadRequestResult>(actionResult2.Result);
         }
@@ -142,7 +142,7 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetCarsByPersonId(new GetCarsByPersonIdRequest{PersonId = 1});
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<CarDto>>>(result);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<CarDto>>>(result);
             Assert.IsType<NotFoundResult>(actionResult.Result);
         }
 
@@ -159,7 +159,7 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act 
             var result = await controller.GetCarsByPersonId(new GetCarsByPersonIdRequest());
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<CarDto>>>(result);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<CarDto>>>(result);
             Assert.IsType<BadRequestObjectResult>(actionResult.Result);
         }
 
@@ -176,8 +176,8 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetCarsByPersonId(new GetCarsByPersonIdRequest{PersonId = 1});
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<CarDto>>>(result);
-            var returnValue = Assert.IsAssignableFrom<IEnumerable<CarDto>>(actionResult.Value);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<CarDto>>>(result);
+            var returnValue = Assert.IsAssignableFrom<IReadOnlyList<CarDto>>(actionResult.Value);
             var car = returnValue.Single();
             Assert.Equal("Tesla",car.Maker);
         }
@@ -199,7 +199,7 @@ namespace Infotech.TestTask.Webapi.Tests
             var result = await controller.GetCarsByPersonExternalId(new GetCarsByPersonExternalIdRequest
                 {PersonExternalId = externalId});
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<CarDto>>>(result);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<CarDto>>>(result);
             Assert.IsType<NotFoundResult>(actionResult.Result);
         }
 
@@ -216,7 +216,7 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act
             var result = await controller.GetCarsByPersonExternalId(new GetCarsByPersonExternalIdRequest());
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<CarDto>>>(result);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<CarDto>>>(result);
             Assert.IsType<BadRequestObjectResult>(actionResult.Result);
         }
 
@@ -234,20 +234,20 @@ namespace Infotech.TestTask.Webapi.Tests
             //Act 
             var result = await controller.GetCarsByPersonExternalId(new GetCarsByPersonExternalIdRequest{PersonExternalId = externalId});
             //Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<CarDto>>>(result);
-            var returnValue = Assert.IsAssignableFrom<IEnumerable<CarDto>>(result.Value);
+            var actionResult = Assert.IsType<ActionResult<IReadOnlyList<CarDto>>>(result);
+            var returnValue = Assert.IsAssignableFrom<IReadOnlyList<CarDto>>(result.Value);
             var car = returnValue.Single();
             Assert.Equal("Tesla",car.Maker);
         }
         #endregion
-        private IEnumerable<Person> GetTestOwners()
+        private IReadOnlyList<Person> GetTestOwners()
         {
             var owners=new List<Person>();
             owners.Add(new Person{ Name = "TestPerson"});
             return owners;
         }
 
-        private IEnumerable<Car> GetTestCars()
+        private IReadOnlyList<Car> GetTestCars()
         {
             var cars = new List<Car>();
             cars.Add(new Car{Maker = "Tesla"});

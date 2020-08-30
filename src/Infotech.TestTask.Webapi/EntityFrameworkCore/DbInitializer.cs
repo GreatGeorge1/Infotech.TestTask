@@ -9,7 +9,7 @@ namespace Infotech.TestTask.Webapi.EntityFrameworkCore
     {
         public static IEnumerable<Person> PersonSeed()
         {
-            return  new[] 
+            return  new[]
             {
                 new Person{Id=1,Name = "Franzen", Surname = "Manicom", Patronymic = "Cyril", ExternalId = "740-92-3574", DateOfBirth = new DateTime(1964,6,23)},
                 new Person{Id=2,Name="Mead",Surname = "Selvey",Patronymic = "Magda", ExternalId = "636-48-2573", DateOfBirth = new DateTime(1980,5,30)},
@@ -25,7 +25,7 @@ namespace Infotech.TestTask.Webapi.EntityFrameworkCore
                 new Person{Id=12,Name = "El", Surname = "Grosier", Patronymic = "Eldridge", ExternalId = "228-29-1768", DateOfBirth = new DateTime(1971,8,24)},
                 new Person{Id=13,Name = "Yasmin", Surname = "Fidgett", Patronymic = "Yorker", ExternalId = "605-53-5928", DateOfBirth = new DateTime(1993,2,26)},
                 new Person{Id=14,Name = "Dorisa", Surname = "Girardot", Patronymic ="Jessalin", ExternalId = "839-40-0702", DateOfBirth = new DateTime(1979,3,13)},
-                new Person{Id=15,Name="Fabian", Surname = "Rissom", Patronymic = "Pierette", ExternalId = "493-87-4963", DateOfBirth = new DateTime(1966,12,16)}, 
+                new Person{Id=15,Name="Fabian", Surname = "Rissom", Patronymic = "Pierette", ExternalId = "493-87-4963", DateOfBirth = new DateTime(1966,12,16)},
             };
         }
 
@@ -75,7 +75,7 @@ namespace Infotech.TestTask.Webapi.EntityFrameworkCore
                 new PersonCar{CarId = 14, PersonId = 15}
             };
         }
-        
+
         public static void Initialize(ApplicationContext context){
             context.Database.EnsureCreated();
             if(context.People.Any()){

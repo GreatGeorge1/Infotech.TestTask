@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "src/Infotech.TestTask.Webapi"
+		},
+		{
+			"path": "tests/Infotech.TestTask.Webapi.Tests"
+		}
+	],
+	"settings": {}
+}
